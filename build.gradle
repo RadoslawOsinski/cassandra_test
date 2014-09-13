@@ -43,14 +43,18 @@ dependencies {
 }
 
 sonarRunner {
-//    sonarProperties {
-//        property "sonar.host.url", "http://sonar.cwsfe.eu"
-//        property "sonar.jdbc.url", "jdbc:postgresql://"
-//        property "sonar.jdbc.driverClassName", ""
-//        property "sonar.jdbc.username", ""
-//        property "sonar.jdbc.password", ""
-//        property "sonar.sourceEncoding", "UTF-8"
-//        property "sonar.login", ""
-//        property "sonar.password", ""
-//    }
+    def props = new Properties()
+    new File("sensitive_data.properties").withInputStream {
+        stream -> props.load(stream)
+    }
+    sonarProperties {
+        property 'toolVersion', '2.4'
+        property "sonar.host.url", props["sonar.host.url"]
+        property "sonar.jdbc.url", props["sonar.jdbc.url"]
+        property "sonar.jdbc.username", props["sonar.jdbc.username"]
+        property "sonar.jdbc.password", props["sonar.jdbc.password"]
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.login", props["sonar.login"]
+        property "sonar.password", props["sonar.password"]
+    }
 }
