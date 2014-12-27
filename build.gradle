@@ -44,8 +44,11 @@ dependencies {
 
 sonarRunner {
     def props = new Properties()
-    new File("sensitive_data.properties").withInputStream {
-        stream -> props.load(stream)
+    def propertiesFile = new File("sensitive_data.properties")
+    if (propertiesFile != null) {
+        propertiesFile.withInputStream {
+            stream -> props.load(stream)
+        }
     }
     sonarProperties {
         property 'toolVersion', '2.4'
